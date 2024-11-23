@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         ANDROID_HOME = "/usr/lib/android-sdk"
-        PATH = PATH = "${ANDROID_HOME}/cmdline-tools/latest/bin:${ANDROID_HOME}/platform-tools:${PATH}"
+        PATH = "${ANDROID_HOME}/cmdline-tools/latest/bin:${ANDROID_HOME}/platform-tools:${PATH}"
         GIT_CREDENTIALS_ID = '1db4425d-852e-4237-8252-098b032f13a3' // Replace with your GitHub credentials ID
         APP_CENTER_TOKEN = '862c7f40e8a1c8698754f56a41b499f4e9b032b3' // Replace with your App Center API token
         APP_CENTER_OWNER = 'SIRINE RABHI' // Replace with App Center owner
@@ -21,33 +21,26 @@ pipeline {
         stage('Setup Environment') {
             steps {
                 echo "Setting up the Android environment..."
-            sh '''
-                echo "ANDROID_HOME: ${ANDROID_HOME}"
-                echo "PATH: $PATH"
-                which sdkmanager
-                ${ANDROID_HOME}/cmdline-tools/latest/bin/sdkmanager --licenses
-                ${ANDROID_HOME}/cmdline-tools/latest/bin/sdkmanager "platform-tools" "build-tools;33.0.0" "platforms;android-33"
-            '''
+                sh '''
+                    echo "ANDROID_HOME: ${ANDROID_HOME}"
+                    echo "PATH: $PATH"
+                    ${ANDROID_HOME}/cmdline-tools/latest/bin/sdkmanager --licenses
+                    ${ANDROID_HOME}/cmdline-tools/latest/bin/sdkmanager "platform-tools" "build-tools;33.0.0" "platforms;android-33"
+                '''
             }
         }
 
         stage('Build APK') {
             steps {
-            sh '''
-               export ANDROID_HOME=${ANDROID_HOME}
-               export PATH=${ANDROID_HOME}/cmdline-tools/latest/bin:${ANDROID_HOME}/platform-tools:$PATH
-               ./gradlew assembleDebug
-            '''
+                echo "Building the Android application..."
+                sh './gradlew assembleDebug'
             }
         }
 
         stage('Run Tests') {
             steps {
-        sh '''
-            export ANDROID_HOME=${ANDROID_HOME}
-            export PATH=${ANDROID_HOME}/cmdline-tools/latest/bin:${ANDROID_HOME}/platform-tools:$PATH
-            ./gradlew testDebugUnitTest
-        '''
+                echo "Running unit tests..."
+                sh './gradlew testDebugUnitTest'
             }
         }
 
@@ -61,7 +54,7 @@ pipeline {
         stage('Upload to App Center') {
             steps {
                 retry(3) {
-                    echo "Uploading APK to App Center..."
+                    echo "Uploading APK to App Center TestingGroup..."
                     sh '''
                         npx appcenter distribute release \
                             --file app/build/outputs/apk/debug/app-debug.apk \
