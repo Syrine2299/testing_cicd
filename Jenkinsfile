@@ -33,14 +33,20 @@ pipeline {
         stage('Build APK') {
             steps {
                 echo "Building the Android application..."
-                sh './gradlew assembleDebug'
+                sh '''
+                    chmod +x ./gradlew
+                    ./gradlew assembleDebug
+                '''
             }
         }
 
         stage('Run Tests') {
             steps {
                 echo "Running unit tests..."
-                sh './gradlew testDebugUnitTest'
+                sh '''
+                    chmod +x ./gradlew
+                    ./gradlew testDebugUnitTest
+                '''
             }
         }
 
