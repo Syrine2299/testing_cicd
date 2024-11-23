@@ -1,4 +1,4 @@
-pipeline {
+pipeline { 
     agent any
 
     environment {
@@ -51,17 +51,18 @@ pipeline {
 
         stage('Upload to App Center') {
             steps {
-             retry(3) {
-              echo "Uploading APK to App Center..."
-              sh '''
-                npx appcenter distribute release \
-                    --file app/build/outputs/apk/debug/app-debug.apk \
-                    --app ${APP_CENTER_OWNER}/${APP_CENTER_APP} \
-                    --group Collaborators \
-                    --token ${APP_CENTER_TOKEN}
-            '''
+                retry(3) {
+                    echo "Uploading APK to App Center..."
+                    sh '''
+                        npx appcenter distribute release \
+                            --file app/build/outputs/apk/debug/app-debug.apk \
+                            --app ${APP_CENTER_OWNER}/${APP_CENTER_APP} \
+                            --group Collaborators \
+                            --token ${APP_CENTER_TOKEN}
+                    '''
+                }
+            }
         }
-    }
     }
 
     post {
@@ -76,5 +77,4 @@ pipeline {
             echo "Build failed. Check logs for details."
         }
     }
-}
 }
