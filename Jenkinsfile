@@ -64,7 +64,7 @@ pipeline {
                     sh '''
                         npx appcenter distribute release \
                             --file app/build/outputs/apk/debug/app-debug.apk \
-                            --app ${APP_CENTER_OWNER}/${APP_CENTER_APP} \
+                            --app "${APP_CENTER_OWNER}/${APP_CENTER_APP}" \
                             --group TestingGroup \
                             --token ${APP_CENTER_TOKEN}
                     '''
