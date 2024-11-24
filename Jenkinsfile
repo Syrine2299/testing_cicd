@@ -61,17 +61,13 @@ pipeline {
             steps {
                 retry(3) {
                     echo "Uploading APK to App Center TestingGroup..."
-                    sh '''
-                        # Replace spaces with %20 in APP_CENTER_OWNER
-                        APP_CENTER_OWNER_ESCAPED=$(echo "${APP_CENTER_OWNER}" | sed 's/ /%20/g')
-
-                        # Upload APK to App Center with the corrected application ID format
-                        npx appcenter distribute release \
-                            --file app/build/outputs/apk/debug/app-debug.apk \
-                            --app "${APP_CENTER_OWNER_ESCAPED}/${APP_CENTER_APP}" \
-                            --group TestingGroup \
-                            --token ${APP_CENTER_TOKEN}
-                    '''
+                   sh '''
+                     echo "Owner: ${APP_CENTER_OWNER}"
+                     npx appcenter distribute release \
+                       --file app/build/outputs/apk/debug/app-debug.apk \
+                       --app "${APP_CENTER_OWNER}/${APP_CENTER_APP}" \
+                       --group TestingGroup \
+                       --token ${APP_CENTER_TOKEN}
 
                 }
             }
