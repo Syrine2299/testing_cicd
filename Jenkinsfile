@@ -6,7 +6,7 @@ pipeline {
         PATH = "${ANDROID_HOME}/cmdline-tools/latest/bin:${ANDROID_HOME}/platform-tools:${PATH}"
         GIT_CREDENTIALS_ID = '1db4425d-852e-4237-8252-098b032f13a3' // Replace with your GitHub credentials ID
         APP_CENTER_TOKEN = credentials('appcenter-token') // Securely reference App Center API token
-        APP_CENTER_OWNER = 'SIRINE RABHI' // Replace with App Center owner
+        APP_CENTER_OWNER = 'syreenrbh' // Replace with App Center owner
         APP_CENTER_APP = 'AndroidApp' // Replace with App Center app name
     }
 
@@ -61,13 +61,13 @@ pipeline {
             steps {
                 retry(3) {
                     echo "Uploading APK to App Center TestingGroup..."
-                   sh '''
-                     echo "Owner: ${APP_CENTER_OWNER}"
-                     npx appcenter distribute release \
-                       --file app/build/outputs/apk/debug/app-debug.apk \
-                       --app "${APP_CENTER_OWNER}/${APP_CENTER_APP}" \
-                       --group TestingGroup \
-                       --token ${APP_CENTER_TOKEN}
+                    sh '''
+                        npx appcenter distribute release \
+                            --file app/build/outputs/apk/debug/app-debug.apk \
+                            --app "${APP_CENTER_OWNER}/${APP_CENTER_APP}" \
+                            --group TestingGroup \
+                            --token ${APP_CENTER_TOKEN}
+                    '''
 
                 }
             }
