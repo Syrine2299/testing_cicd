@@ -62,9 +62,10 @@ pipeline {
                 retry(3) {
                     echo "Uploading APK to App Center TestingGroup..."
                     sh '''
+                        APP_CENTER_OWNER_ESCAPED=$(echo "${APP_CENTER_OWNER}" | sed 's/ /%20/g')
                         npx appcenter distribute release \
                             --file app/build/outputs/apk/debug/app-debug.apk \
-                            --app "${APP_CENTER_OWNER// /%20}/${APP_CENTER_APP}" \
+                            --app "${APP_CENTER_OWNER_ESCAPED}/${APP_CENTER_APP}" \
                             --group TestingGroup \
                             --token ${APP_CENTER_TOKEN}
                     '''
