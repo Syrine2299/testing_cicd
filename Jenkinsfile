@@ -5,7 +5,7 @@ pipeline {
         ANDROID_HOME = "/usr/lib/android-sdk"
         PATH = "${ANDROID_HOME}/cmdline-tools/latest/bin:${ANDROID_HOME}/platform-tools:${PATH}"
         GIT_CREDENTIALS_ID = '1db4425d-852e-4237-8252-098b032f13a3' // Replace with your GitHub credentials ID
-        APP_CENTER_TOKEN = '862c7f40e8a1c8698754f56a41b499f4e9b032b3' // Replace with your App Center API token
+        APP_CENTER_TOKEN = credentials('appcenter-token') // Securely reference App Center API token
         APP_CENTER_OWNER = 'SIRINE RABHI' // Replace with App Center owner
         APP_CENTER_APP = 'AndroidApp' // Replace with App Center app name
     }
